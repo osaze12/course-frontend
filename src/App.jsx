@@ -227,9 +227,15 @@ export const CoursePage = () => {
                         <option disabled value={"S"}>
                           Select
                         </option>
-                        <option value={"Babalola"}>Dr. Babalola Adesobu</option>
-                        <option value={"Tobi"}>Dr. Emmanuel Tobi</option>
-                        <option value={"Tobi"}>Dr. Kingsley Durotoye</option>
+                        <option value={"Dr. Babalola Adesobu"}>
+                          Dr. Babalola Adesobu
+                        </option>
+                        <option value={"Dr. Emmanuel Tobi"}>
+                          Dr. Emmanuel Tobi
+                        </option>
+                        <option value={"Dr. Kingsley Durotoye"}>
+                          Dr. Kingsley Durotoye
+                        </option>
                       </Select>
                     </Flex>
                     <Flex flexDir={"column"}>
@@ -296,88 +302,90 @@ const Courses = ({ list, setRefresh }) => {
       maxW="900px"
       p={["10px", "none"]}
     >
-      {list?.map((data, idx) => (
-        <Flex
-          flexDir={"column"}
-          w={["100%", "250px"]}
-          maxW={["100%", "300px"]}
-          border="1.3px solid #000"
-          borderRadius="10px"
-          p="8px"
-          overflow={"hidden"}
-          bg={`${colors[Math.floor(Math.random() * colors.length)]}60`}
-          id="xx"
-        >
-          {mobile ? (
-            <ReactPlayer
-              width={document.getElementById("xx")?.offsetWidth}
-              height={"300px"}
-              playIcon={<BsPlayCircle color="#fff" />}
-              light="https://i.imgur.com/0PnQHkk.jpg"
-              style={{
-                marginLeft: "-8px",
-                marginRight: "-8px",
-                marginTop: "-8px",
-                marginBottom: "10px",
-              }}
-              url={data?.videoUrl}
-            />
-          ) : (
-            <ReactPlayer
-              width={"250px"}
-              height={"250px"}
-              playIcon={<BsPlayCircle fontSize={"4em"} color="#fff" />}
-              light="https://i.imgur.com/0PnQHkk.jpg"
-              style={{
-                marginLeft: "-8px",
-                marginRight: "-8px",
-                marginTop: "-8px",
-                marginBottom: "10px",
-              }}
-              url={data?.videoUrl}
-            />
-          )}
-          <Text fontWeight={"900"} lineHeight={"1.3"}>
-            {data?.title}
-          </Text>
-          <Text color="grey" fontSize=".7em">
-            {data?.instructor}
-          </Text>
+      {list
+        ?.sort((a, b) => (a?._id > b?._id ? -1 : 1))
+        ?.map((data, idx) => (
+          <Flex
+            flexDir={"column"}
+            w={["100%", "250px"]}
+            maxW={["100%", "300px"]}
+            border="1.3px solid #000"
+            borderRadius="10px"
+            p="8px"
+            overflow={"hidden"}
+            bg={`${colors[Math.floor(Math.random() * colors.length)]}60`}
+            id="xx"
+          >
+            {mobile ? (
+              <ReactPlayer
+                width={document.getElementById("xx")?.offsetWidth}
+                height={"300px"}
+                playIcon={<BsPlayCircle color="#fff" />}
+                light="https://i.imgur.com/0PnQHkk.jpg"
+                style={{
+                  marginLeft: "-8px",
+                  marginRight: "-8px",
+                  marginTop: "-8px",
+                  marginBottom: "10px",
+                }}
+                url={data?.videoUrl}
+              />
+            ) : (
+              <ReactPlayer
+                width={"250px"}
+                height={"250px"}
+                playIcon={<BsPlayCircle fontSize={"4em"} color="#fff" />}
+                light="https://i.imgur.com/0PnQHkk.jpg"
+                style={{
+                  marginLeft: "-8px",
+                  marginRight: "-8px",
+                  marginTop: "-8px",
+                  marginBottom: "10px",
+                }}
+                url={data?.videoUrl}
+              />
+            )}
+            <Text fontWeight={"900"} lineHeight={"1.3"}>
+              {data?.title}
+            </Text>
+            <Text color="grey" fontSize=".7em">
+              {data?.instructor}
+            </Text>
 
-          {/* <Text fontSize={".7em"} mt="10px">
+            {/* <Text fontSize={".7em"} mt="10px">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit...
           </Text> */}
 
-          <Flex alignItems={"center"} gap="5px" fontSize={".7em"} mt="20px">
-            <Flex alignItems={"center"} gap="5px">
-              <AiOutlineClockCircle /> {data?.duration}
+            <Flex alignItems={"center"} gap="5px" fontSize={".7em"} mt="20px">
+              <Flex alignItems={"center"} gap="5px">
+                <AiOutlineClockCircle /> {data?.duration}
+              </Flex>
+              <Text>|</Text>
+              <Flex alignItems={"center"} gap="5px">
+                <AiOutlineUser /> {data?.noOfStudents || 0} students
+              </Flex>
             </Flex>
-            <Text>|</Text>
-            <Flex alignItems={"center"} gap="5px">
-              <AiOutlineUser /> {data?.noOfStudents || 0} students
-            </Flex>
-          </Flex>
 
-          <Flex
-            flexDir={"row"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-            mt="10px"
-          >
-            <Text fontWeight={"900"}>
-              ₦{parseInt(data?.price)?.toLocaleString()}
-            </Text>
-
-            <Flex alignItems={"center "}>
-              <AiOutlineHeart fontSize={"1.2em"} />
-              <Text ml="6px" fontWeight={"bold"} fontSize={".8em"}>
-                {data?.likes || 0}
+            <Flex
+              flexDir={"row"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              mt="10px"
+            >
+              <Text fontWeight={"900"}>
+                ₦{parseInt(data?.price)?.toLocaleString()}
               </Text>
-              <Dot data={data} setRefresh={setRefresh} />
+
+              <Flex alignItems={"center "}>
+                <AiOutlineHeart fontSize={"1.2em"} />
+                <Text ml="6px" fontWeight={"bold"} fontSize={".8em"}>
+                  {data?.likes || 0}
+                </Text>
+                <Dot data={data} setRefresh={setRefresh} />
+              </Flex>
             </Flex>
           </Flex>
-        </Flex>
-      ))}
+        ))}
     </Flex>
   );
 };
@@ -643,4 +651,5 @@ export const textLabelStyle = {
 
 export const inputStyle = {
   _focusVisible: { boxShadow: "none" },
+  fontSize: ".8em",
 };
